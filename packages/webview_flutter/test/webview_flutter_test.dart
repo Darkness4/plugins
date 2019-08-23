@@ -16,6 +16,7 @@ import 'package:webview_flutter/webview_flutter.dart';
 typedef void VoidCallback();
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
   final _FakePlatformViewsController fakePlatformViewsController =
       _FakePlatformViewsController();
 
@@ -424,6 +425,18 @@ void main() {
     expect(hasCookies, true);
     final bool hasCookiesSecond = await cookieManager.clearCookies();
     expect(hasCookiesSecond, false);
+  });
+
+  testWidgets('Cookies can be added', (WidgetTester tester) async {
+    await tester.pumpWidget(
+      const WebView(
+        initialUrl: 'https://flutter.io',
+      ),
+    );
+    final CookieManager cookieManager = CookieManager();
+    final bool hasCookies = await cookieManager.setCookie('https://flutter.io',
+        'name=value; Expires=Wed, 09 Jun 2021 10:18:14 GMT');
+    expect(hasCookies, true);
   });
 
   testWidgets('Initial JavaScript channels', (WidgetTester tester) async {
@@ -1046,6 +1059,11 @@ class _FakeCookieManager {
           return hadCookies;
         });
         break;
+      case 'setCookie':
+        return Future<bool>.sync(() {
+          return hasCookies;
+        });
+        break;
     }
     return Future<bool>.sync(() => null);
   }
@@ -1075,6 +1093,11 @@ class MyWebViewPlatform implements WebViewPlatform {
 
   @override
   Future<bool> clearCookies() {
+    return Future<bool>.sync(() => null);
+  }
+
+  @override
+  Future<bool> setCookie(String url, String value) {
     return Future<bool>.sync(() => null);
   }
 }

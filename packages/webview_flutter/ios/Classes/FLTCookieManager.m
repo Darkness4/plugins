@@ -19,6 +19,8 @@
 - (void)handleMethodCall:(FlutterMethodCall *)call result:(FlutterResult)result {
   if ([[call method] isEqualToString:@"clearCookies"]) {
     [self clearCookies:result];
+  } else if ([[call method] isEqualToString:@"setCookie"]) {
+    [self setCookie:call];
   } else {
     result(FlutterMethodNotImplemented);
   }
@@ -44,6 +46,10 @@
     // support for iOS8 tracked in https://github.com/flutter/flutter/issues/27624.
     NSLog(@"Clearing cookies is not supported for Flutter WebViews prior to iOS 9.");
   }
+}
+
+- (void)setCookie:(FlutterMethodCall *)call {
+  NSLog(@"Adding cookies is not supported yet for Flutter WebViews iOS.");
 }
 
 @end

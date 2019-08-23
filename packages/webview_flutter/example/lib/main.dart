@@ -110,6 +110,7 @@ enum MenuOptions {
   showUserAgent,
   listCookies,
   clearCookies,
+  setCookie,
   addToCache,
   listCache,
   clearCache,
@@ -140,6 +141,9 @@ class SampleMenu extends StatelessWidget {
               case MenuOptions.clearCookies:
                 _onClearCookies(context);
                 break;
+              case MenuOptions.setCookie:
+                _onSetCookie(context);
+                break;
               case MenuOptions.addToCache:
                 _onAddToCache(controller.data, context);
                 break;
@@ -167,6 +171,10 @@ class SampleMenu extends StatelessWidget {
             const PopupMenuItem<MenuOptions>(
               value: MenuOptions.clearCookies,
               child: Text('Clear cookies'),
+            ),
+            const PopupMenuItem<MenuOptions>(
+              value: MenuOptions.setCookie,
+              child: Text('Set cookie'),
             ),
             const PopupMenuItem<MenuOptions>(
               value: MenuOptions.addToCache,
@@ -240,6 +248,18 @@ class SampleMenu extends StatelessWidget {
     String message = 'There were cookies. Now, they are gone!';
     if (!hadCookies) {
       message = 'There are no cookies.';
+    }
+    Scaffold.of(context).showSnackBar(SnackBar(
+      content: Text(message),
+    ));
+  }
+
+  void _onSetCookie(BuildContext context) async {
+    final bool hasCookie =
+        await cookieManager.setCookie('www.exemple.com', 'key=value');
+    String message = 'Set a cookie';
+    if (!hasCookie) {
+      message = 'Didn\'t set a cookie.';
     }
     Scaffold.of(context).showSnackBar(SnackBar(
       content: Text(message),
