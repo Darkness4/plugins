@@ -434,8 +434,9 @@ void main() {
       ),
     );
     final CookieManager cookieManager = CookieManager();
-    final bool hasCookies = await cookieManager.setCookie('https://flutter.io',
+    await cookieManager.setCookie('https://flutter.io',
         'name=value; Expires=Wed, 09 Jun 2021 10:18:14 GMT');
+    final bool hasCookies = await cookieManager.clearCookies();
     expect(hasCookies, true);
   });
 
@@ -1060,6 +1061,7 @@ class _FakeCookieManager {
         });
         break;
       case 'setCookie':
+        hasCookies = true;
         return Future<bool>.sync(() {
           return hasCookies;
         });
@@ -1097,8 +1099,8 @@ class MyWebViewPlatform implements WebViewPlatform {
   }
 
   @override
-  Future<bool> setCookie(String url, String value) {
-    return Future<bool>.sync(() => null);
+  Future<void> setCookie(String url, String value) {
+    return Future<void>.sync(() => null);
   }
 }
 

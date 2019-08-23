@@ -353,7 +353,7 @@ abstract class WebViewPlatform {
   ///
   /// [value] is the cookie as a string, using the format of the 'Set-Cookie'.
   /// HTTP response header
-  Future<bool> setCookie(String url, String value) {
+  Future<void> setCookie(String url, String value) {
     throw UnimplementedError(
         "WebView setCookie is not implemented on the current platform");
   }

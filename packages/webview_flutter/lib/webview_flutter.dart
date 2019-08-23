@@ -651,7 +651,7 @@ class CookieManager {
   ///
   /// [value] is the cookie as a string, using the format of the 'Set-Cookie'.
   /// HTTP response header
-  Future<bool> setCookie(String url, String value) =>
+  Future<void> setCookie(String url, String value) =>
       WebView.platform.setCookie(url, value);
 }
 

@@ -255,13 +255,9 @@ class SampleMenu extends StatelessWidget {
   }
 
   void _onSetCookie(BuildContext context) async {
-    final bool hasCookie =
-        await cookieManager.setCookie('www.exemple.com', 'key=value');
-    String message = 'Set a cookie';
-    if (!hasCookie) {
-      message = 'Didn\'t set a cookie.';
-    }
-    Scaffold.of(context).showSnackBar(SnackBar(
+    await cookieManager.setCookie('www.exemple.com', 'key=value');
+    const String message = 'Set a cookie';
+    Scaffold.of(context).showSnackBar(const SnackBar(
       content: Text(message),
     ));
   }

@@ -59,11 +59,10 @@ class FlutterCookieManager implements MethodCallHandler {
   }
 
   private static void setCookie(final MethodCall methodCall, final Result result) {
-    CookieManager cookieManager = CookieManager.getInstance();
-    String url = call.argument("url");
-    String value = call.argument("value");
+    final CookieManager cookieManager = CookieManager.getInstance();
+    final String url = methodCall.argument("url");
+    final String value = methodCall.argument("value");
     cookieManager.setCookie(url, value);
-    Boolean hasCookie = cookieManager.getCookie(url);
-    result.success(hasCookie);
+    result.success(null);
   }
 }
