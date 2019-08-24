@@ -20,7 +20,7 @@
   if ([[call method] isEqualToString:@"clearCookies"]) {
     [self clearCookies:result];
   } else if ([[call method] isEqualToString:@"setCookie"]) {
-    [self setCookie:call];
+    [self setCookie:call result:result];
   } else {
     result(FlutterMethodNotImplemented);
   }
@@ -48,8 +48,24 @@
   }
 }
 
-- (void)setCookie:(FlutterMethodCall *)call {
-  NSLog(@"Adding cookies is not supported yet for Flutter WebViews iOS.");
+- (void)setCookie:(FlutterMethodCall *)call result:(FlutterResult)result {
+  if (@available(iOS 11.0, *)) {
+  NSString* url = call.arguments[@"url"];
+  NSString* value = call.arguments[@"value"];
+  WKWebsiteDataStore *dataStore = [WKWebsiteDataStore defaultDataStore];
+  WKHTTPCookieStore *cookieStore = dataStore.httpCookieStore;
+  NSDictionary<NSString *,NSString *> *cookieHeaderFields = @{
+       @"Set-Cookie" : value
+  };
+  NSURL *url = [NSURL URLWithString:url];
+  NSHTTPCookie *cookie = [NSHTTPCookie cookiesWithResponseHeaderFields:cookieHeaderFields forURL:url];
+  [cookieStore setCookie:cookie
+              completionHandler:^{
+                result(nil);
+              }];
+  } else {
+    NSLog(@"Adding cookies is not supported for Flutter WebViews prior to iOS 11.");
+  }
 }
 
 @end
