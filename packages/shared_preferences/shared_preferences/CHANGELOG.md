@@ -1,3 +1,11 @@
+## 0.5.8
+
+* Support Linux by default.
+
+## 0.5.7+3
+
+* Post-v2 Android embedding cleanup.
+
 ## 0.5.7+2
 
 * Update lower bound of dart dependency to 2.1.0.
